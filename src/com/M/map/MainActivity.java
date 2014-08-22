@@ -52,7 +52,7 @@ public class MainActivity extends Activity implements
 	
 	//定位相关：
 	private LocationMode tempMode = LocationMode.Hight_Accuracy;
-	private String tempcoor="gcj02";
+	private String tempcoor="bd09ll";
 	private LocationClient mLocationClient;
 	public MyLocationListener mMyLocationListener;
 	
@@ -208,6 +208,7 @@ public class MainActivity extends Activity implements
 		option.setLocationMode(tempMode);//设置定位模式
 		option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
 		int span=5000;
+		option.setIsNeedAddress(true);
 		option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
 		mLocationClient.setLocOption(option);
 	}
@@ -242,6 +243,7 @@ public class MainActivity extends Activity implements
 				sb.append(location.getSatelliteNumber());
 				sb.append("\ndirection : ");
 				sb.append("\naddr : ");
+				sb.append(location.getCity());
 				sb.append(location.getAddrStr());
 				sb.append(location.getDirection());
 			} else if (location.getLocType() == BDLocation.TypeNetWorkLocation){
@@ -251,6 +253,7 @@ public class MainActivity extends Activity implements
 				sb.append("\noperationers : ");
 				sb.append(location.getOperators());
 			}
+			sb.append(location.getStreet()+location.getStreetNumber());
 			text.append(sb.toString());
 			Log.i("BaiduLocationApiDem", sb.toString());
 		}
