@@ -59,7 +59,7 @@
             android:hint="齐鲁软件学院" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/chooseDestination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="72.32"

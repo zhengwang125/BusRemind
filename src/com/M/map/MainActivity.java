@@ -34,22 +34,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements
-		OnGetBusLineSearchResultListener, OnGetPoiSearchResultListener {
+public class MainActivity extends Activity implements OnGetPoiSearchResultListener {
 
 	// 搜索相关
 	private PoiSearch mSearch = null; // 搜索模块，也可去掉地图模块独立使用
 	private BusLineSearch mBusLineSearch = null;
 
-	//
-	Button exampl = null;
-	private BusLineResult route = null;// 保存驾车/步行路线数据的变量，供浏览节点时使用
-	private List<String> busLineIDList = null;
+	//公交线路查询
+	Button chooseDestination = null;
 	TextView text = null;
-
-	//
-	ArrayList<String>busStations=new ArrayList<String>();
-	
+	GetBusLine busLineSearch;
+	//公交站点
+	public static ArrayList<String>busStations=new ArrayList<String>();
+	/**手动检测线程同步*/
+	public static boolean getStations;
 	//定位相关：
 	private LocationMode tempMode = LocationMode.Hight_Accuracy;
 	private String tempcoor="bd09ll";
@@ -68,11 +66,8 @@ public class MainActivity extends Activity implements
 
 		mSearch = PoiSearch.newInstance();
 		mSearch.setOnGetPoiSearchResultListener(this);
-		mBusLineSearch = BusLineSearch.newInstance();
-		mBusLineSearch.setOnGetBusLineSearchResultListener(this);
-		busLineIDList = new ArrayList<String>();
 		text = (TextView) findViewById(R.id.textView1);
-		
+		getStations=false;
 		
 		
 		//定位相关：
@@ -80,8 +75,8 @@ public class MainActivity extends Activity implements
 		mMyLocationListener = new MyLocationListener();
 		mLocationClient.registerLocationListener(mMyLocationListener);
 		
-		exampl = (Button) findViewById(R.id.button1);
-		exampl.setOnClickListener(new OnClickListener() {
+		chooseDestination = (Button) findViewById(R.id.chooseDestination);
+		chooseDestination.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
@@ -90,10 +85,10 @@ public class MainActivity extends Activity implements
 					return;
 				}
 				if (mLocationClient.isStarted()) {
-					exampl.setText("Start");
+					chooseDestination.setText("Start");
 					mLocationClient.stop();
 				}else {
-					exampl.setText("Stop");
+					chooseDestination.setText("Stop");
 					mLocationClient.start();
 					/*
 					 *当所设的整数值大于等于1000（ms）时，定位SDK内部使用定时定位模式。
@@ -147,21 +142,6 @@ public class MainActivity extends Activity implements
 		// 在activity执行onPause时执行mMapView. onPause ()，实现地图生命周期管理
 	}
 
-	@Override
-	public void onGetBusLineResult(BusLineResult result) {
-		// TODO Auto-generated method stub
-		if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
-			System.out.println("no result");
-			return;
-		}
-		route = result;
-		List<BusLineResult.BusStation> st = route.getStations();
-		for (Iterator<BusLineResult.BusStation> i = st.iterator(); i.hasNext();) {
-			// System.out.println("station"+i.next().getTitle());
-//			text.append("station" + i.next().getTitle());
-			busStations.add(i.next().getTitle());
-		}
-	}
 
 	@Override
 	public void onGetPoiDetailResult(PoiDetailResult arg0) {

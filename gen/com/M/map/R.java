@@ -14,7 +14,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int button1=0x7f060006;
+        public static final int chooseDestination=0x7f060006;
         public static final int editText1=0x7f060005;
         public static final int editText2=0x7f060002;
         public static final int item_birth=0x7f060009;
@@ -34,6 +34,7 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int chooseDestion=0x7f040004;
         public static final int i_am_here=0x7f040001;
         public static final int lu=0x7f040002;
         public static final int yaoqu=0x7f040003;
